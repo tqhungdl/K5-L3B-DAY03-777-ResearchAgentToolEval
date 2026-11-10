@@ -1,0 +1,302 @@
+{
+  "version": "v4",
+  "artifact_version": "v4+pe87b912fc023+t468149a740cb",
+  "prompt_hash": "e87b912fc0230bf9e721e1b194577607e0a7d60ffa1b87507e9adae1800d06cc",
+  "tools_hash": "468149a740cba9fcec9f3fb6d71d5f321332121f3fc76174033f48a601adc7d2",
+  "provider": "openrouter",
+  "system_prompt": "/home/ngtiendat/coding/vinlab/K5-L3-DAY03-777-ResearchAgentToolEval/starter_v0/artifacts/system_prompt.md",
+  "tools": "/home/ngtiendat/coding/vinlab/K5-L3-DAY03-777-ResearchAgentToolEval/starter_v0/artifacts/tools.yaml",
+  "transcript_id": "9727a18fbde54be996dec839ae125838",
+  "model": "openai/gpt-4o-mini",
+  "created_at": "2026-11-11T01:28:53",
+  "max_tool_rounds": 6,
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-11T01:29:23",
+      "ended_at": "2026-11-11T01:29:55",
+      "user": "Tôi muốn tìm hiểu thông tin về chế độ ăn cho skinny fat",
+      "status": "answered",
+      "assistant_text": "### Thông tin về chế độ ăn cho skinny fat\n\n#### Tổng hợp\n- **Chế độ ăn uống thiếu hụt protein và dưỡng chất**: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. *Ít vận động hoặc* - [instagram.com](https://www.instagram.com/p/DfbA0YTE0EV)\n- **Hội chứng skinny fat**: Dân văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn. Để cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cân mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng thời duy trì và tăng khối lượng cơ xương. - [vnexpress.net](https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html)\n- **Chế độ ăn nhiều tinh bột** (trên 60%): Nhưng cơ thể vẫn thiếu săn chắc. Muốn hết skinny fat phải: Tập tạ đúng kỹ thuật và ưu tiên bài tập. - [facebook.com](https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722)\n- **Chế độ ăn thiếu protein, thừa carb và chất béo**: Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không hiệu quả. - [facebook.com](https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524)\n- **Thói quen ngồi lâu, ít vận động**: Có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn. - [advertisingvietnam.com](https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so)\n\nNếu bạn cần thêm thông tin hoặc có câu hỏi khác, hãy cho tôi biết!",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "lookup",
+              "args": {
+                "query": "chế độ ăn cho skinny fat",
+                "topic": "general",
+                "timeframe": "week",
+                "max_results": 5
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "lookup",
+              "args": {
+                "query": "chế độ ăn cho skinny fat",
+                "topic": "general",
+                "timeframe": "week",
+                "max_results": 5
+              },
+              "result": {
+                "tool": "web_search",
+                "query": "chế độ ăn cho skinny fat",
+                "topic": "general",
+                "timeframe": "week",
+                "items": [
+                  {
+                    "title": "\"2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                    "url": "https://www.instagram.com/p/DfbA0YTE0EV",
+                    "source": "instagram.com",
+                    "summary": "... Skinny Fat * Chế độ ăn uống thiếu hụt protein và dưỡng chất: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. * Ít vận động hoặc",
+                    "score": 0.86441374
+                  },
+                  {
+                    "title": "'Skinny fat' - hội chứng âm thầm phá hoại sức khỏe dân công sở - Báo VnExpress Sức khỏe",
+                    "url": "https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html",
+                    "source": "vnexpress.net",
+                    "summary": "Dn văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn.\n\nĐể cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cn mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng thời duy trì và tăng khối lượng cơ xương. Chế độ ăn nên ưu tiên thực phẩm tươi, rau xanh, trái cy, ngũ cốc nguyên hạt và các nguồn protein chất lượng như cá, trứng, thịt nạc, sữa và các loại đậu. [...] Thu Hà, 34 tuổi, kế toán, cao 1,63 m và nặng 50 kg, cũng có cu chuyện tương tự. Cô tự hào về vóc dáng thon gọn cho đến khi một đợt khám sức khỏe cho thấy các chỉ số chuyển hóa bất thường. Chế độ ăn của cô thiếu rau xanh, ngày bận lại gọi đồ ăn nhanh, ngồi gần như cả ngày và ngủ không đủ giấc vào cuối tháng khi áp lực báo cáo tăng lên. [...] Người phụ nữ cho biết đặc thù công việc khiến cô phải ngồi trước máy tính 8-10 tiếng mỗi ngày. Hết giờ, cô nằm xem điện thoại, ít khi tập thể dục hay đi bộ. Cô thường ăn sáng qua loa bằng bánh ngọt hoặc cà phê, bữa trưa ăn ngay tại bàn, chiều thường gọi trà sữa, đồ ăn vặt. Buổi tối, có hôm Lan bỏ bữa, có hôm lại ăn nhiều. Áp lực công việc kéo dài, ngủ muộn và thiếu vận động khiến cô thường xuyên mệt mỏi, thiếu sức bền, bụng ngày càng tích mỡ dù cn nặng gần như không thay đổi. Tuy nhiên, vì vóc",
+                    "score": 0.8098936
+                  },
+                  {
+                    "title": "Skinny fat thì nên làm gì?",
+                    "url": "https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722",
+                    "source": "facebook.com",
+                    "summary": "Chế độ ăn nhiều tinh bột (trên 60%) ✅Nhưng cơ thể vẫn thiếu săn chắc. ✅3vòng không rõ nét. Muốn hết skinny fat phải: ✔️ Tập tạ đúng kỹ thuật ✔️ Ưu tiên bài",
+                    "score": 0.8091708
+                  },
+                  {
+                    "title": "2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                    "url": "https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524",
+                    "source": "facebook.com",
+                    "summary": "Chế độ ăn thiếu protein, thừa carb và chất béo → Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không",
+                    "score": 0.751375
+                  },
+                  {
+                    "title": "Skinny Fat và hội chứng “ngồi cả ngày”: Câu chuyện sức ...",
+                    "url": "https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so",
+                    "source": "advertisingvietnam.com",
+                    "summary": "Thói quen ngồi lâu, ít vận động của dân công sở có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn",
+                    "score": 0.26329312
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "format",
+              "args": {
+                "items": [
+                  {
+                    "title": "\"2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                    "url": "https://www.instagram.com/p/DfbA0YTE0EV",
+                    "source": "instagram.com",
+                    "summary": "... Skinny Fat * Chế độ ăn uống thiếu hụt protein và dưỡng chất: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. * Ít vận động hoặc"
+                  },
+                  {
+                    "title": "'Skinny fat' - hội chứng âm thầm phá hoại sức khỏe dân công sở - Báo VnExpress Sức khỏe",
+                    "url": "https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html",
+                    "source": "vnexpress.net",
+                    "summary": "Dn văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn.\n\nĐể cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cn mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng thời duy trì và tăng khối lượng cơ xương. Chế độ ăn nên ưu tiên thực phẩm tươi, rau xanh, trái cy, ngũ cốc nguyên hạt và các nguồn protein chất lượng như cá, trứng, thịt nạc, sữa và các loại đậu. [...] Thu Hà, 34 tuổi, kế toán, cao 1,63 m và nặng 50 kg, cũng có cu chuyện tương tự. Cô tự hào về vóc dáng thon gọn cho đến khi một đợt khám sức khỏe cho thấy các chỉ số chuyển hóa bất thường. Chế độ ăn của cô thiếu rau xanh, ngày bận lại gọi đồ ăn nhanh, ngồi gần như cả ngày và ngủ không đủ giấc vào cuối tháng khi áp lực báo cáo tăng lên. [...] Người phụ nữ cho biết đặc thù công việc khiến cô phải ngồi trước máy tính 8-10 tiếng mỗi ngày. Hết giờ, cô nằm xem điện thoại, ít khi tập thể dục hay đi bộ. Cô thường ăn sáng qua loa bằng bánh ngọt hoặc cà phê, bữa trưa ăn ngay tại bàn, chiều thường gọi trà sữa, đồ ăn vặt. Buổi tối, có hôm Lan bỏ bữa, có hôm lại ăn nhiều. Áp lực công việc kéo dài, ngủ muộn và thiếu vận động khiến cô thường xuyên mệt mỏi, thiếu sức bền, bụng ngày càng tích mỡ dù cn nặng gần như không thay đổi. Tuy nhiên, vì vóc",
+                    "score": 0.8098936
+                  },
+                  {
+                    "title": "Skinny fat thì nên làm gì?",
+                    "url": "https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722",
+                    "source": "facebook.com",
+                    "summary": "Chế độ ăn nhiều tinh bột (trên 60%) ✅Nhưng cơ thể vẫn thiếu săn chắc. ✅3vòng không rõ nét. Muốn hết skinny fat phải: ✔️ Tập tạ đúng kỹ thuật ✔️ Ưu tiên bài",
+                    "score": 0.8091708
+                  },
+                  {
+                    "title": "2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                    "url": "https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524",
+                    "source": "facebook.com",
+                    "summary": "Chế độ ăn thiếu protein, thừa carb và chất béo → Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không",
+                    "score": 0.751375
+                  },
+                  {
+                    "title": "Skinny Fat và hội chứng “ngồi cả ngày”: Câu chuyện sức ...",
+                    "url": "https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so",
+                    "source": "advertisingvietnam.com",
+                    "summary": "Thói quen ngồi lâu, ít vận động của dân công sở có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn",
+                    "score": 0.26329312
+                  }
+                ],
+                "headline": "Thông tin về chế độ ăn cho skinny fat"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "format",
+              "args": {
+                "items": [
+                  {
+                    "title": "\"2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                    "url": "https://www.instagram.com/p/DfbA0YTE0EV",
+                    "source": "instagram.com",
+                    "summary": "... Skinny Fat * Chế độ ăn uống thiếu hụt protein và dưỡng chất: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. * Ít vận động hoặc"
+                  },
+                  {
+                    "title": "'Skinny fat' - hội chứng âm thầm phá hoại sức khỏe dân công sở - Báo VnExpress Sức khỏe",
+                    "url": "https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html",
+                    "source": "vnexpress.net",
+                    "summary": "Dn văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn.\n\nĐể cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cn mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng thời duy trì và tăng khối lượng cơ xương. Chế độ ăn nên ưu tiên thực phẩm tươi, rau xanh, trái cy, ngũ cốc nguyên hạt và các nguồn protein chất lượng như cá, trứng, thịt nạc, sữa và các loại đậu. [...] Thu Hà, 34 tuổi, kế toán, cao 1,63 m và nặng 50 kg, cũng có cu chuyện tương tự. Cô tự hào về vóc dáng thon gọn cho đến khi một đợt khám sức khỏe cho thấy các chỉ số chuyển hóa bất thường. Chế độ ăn của cô thiếu rau xanh, ngày bận lại gọi đồ ăn nhanh, ngồi gần như cả ngày và ngủ không đủ giấc vào cuối tháng khi áp lực báo cáo tăng lên. [...] Người phụ nữ cho biết đặc thù công việc khiến cô phải ngồi trước máy tính 8-10 tiếng mỗi ngày. Hết giờ, cô nằm xem điện thoại, ít khi tập thể dục hay đi bộ. Cô thường ăn sáng qua loa bằng bánh ngọt hoặc cà phê, bữa trưa ăn ngay tại bàn, chiều thường gọi trà sữa, đồ ăn vặt. Buổi tối, có hôm Lan bỏ bữa, có hôm lại ăn nhiều. Áp lực công việc kéo dài, ngủ muộn và thiếu vận động khiến cô thường xuyên mệt mỏi, thiếu sức bền, bụng ngày càng tích mỡ dù cn nặng gần như không thay đổi. Tuy nhiên, vì vóc",
+                    "score": 0.8098936
+                  },
+                  {
+                    "title": "Skinny fat thì nên làm gì?",
+                    "url": "https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722",
+                    "source": "facebook.com",
+                    "summary": "Chế độ ăn nhiều tinh bột (trên 60%) ✅Nhưng cơ thể vẫn thiếu săn chắc. ✅3vòng không rõ nét. Muốn hết skinny fat phải: ✔️ Tập tạ đúng kỹ thuật ✔️ Ưu tiên bài",
+                    "score": 0.8091708
+                  },
+                  {
+                    "title": "2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                    "url": "https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524",
+                    "source": "facebook.com",
+                    "summary": "Chế độ ăn thiếu protein, thừa carb và chất béo → Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không",
+                    "score": 0.751375
+                  },
+                  {
+                    "title": "Skinny Fat và hội chứng “ngồi cả ngày”: Câu chuyện sức ...",
+                    "url": "https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so",
+                    "source": "advertisingvietnam.com",
+                    "summary": "Thói quen ngồi lâu, ít vận động của dân công sở có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn",
+                    "score": 0.26329312
+                  }
+                ],
+                "headline": "Thông tin về chế độ ăn cho skinny fat"
+              },
+              "result": {
+                "tool": "render_digest",
+                "template": "sections",
+                "markdown": "# Thông tin về chế độ ăn cho skinny fat\n\n## Tổng hợp\n- ... Skinny Fat * Chế độ ăn uống thiếu hụt protein và dưỡng chất: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. * Ít vận động hoặc - [instagram.com](https://www.instagram.com/p/DfbA0YTE0EV)\n- Dn văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn.  Để cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cn mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng... - [vnexpress.net](https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html)\n- Chế độ ăn nhiều tinh bột (trên 60%) ✅Nhưng cơ thể vẫn thiếu săn chắc. ✅3vòng không rõ nét. Muốn hết skinny fat phải: ✔️ Tập tạ đúng kỹ thuật ✔️ Ưu tiên bài - [facebook.com](https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722)\n- Chế độ ăn thiếu protein, thừa carb và chất béo → Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không - [facebook.com](https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524)\n- Thói quen ngồi lâu, ít vận động của dân công sở có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn - [advertisingvietnam.com](https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so)\n",
+                "item_count": 5
+              }
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "assistant_text": "### Thông tin về chế độ ăn cho skinny fat\n\n#### Tổng hợp\n- **Chế độ ăn uống thiếu hụt protein và dưỡng chất**: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. *Ít vận động hoặc* - [instagram.com](https://www.instagram.com/p/DfbA0YTE0EV)\n- **Hội chứng skinny fat**: Dân văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn. Để cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cân mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng thời duy trì và tăng khối lượng cơ xương. - [vnexpress.net](https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html)\n- **Chế độ ăn nhiều tinh bột** (trên 60%): Nhưng cơ thể vẫn thiếu săn chắc. Muốn hết skinny fat phải: Tập tạ đúng kỹ thuật và ưu tiên bài tập. - [facebook.com](https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722)\n- **Chế độ ăn thiếu protein, thừa carb và chất béo**: Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không hiệu quả. - [facebook.com](https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524)\n- **Thói quen ngồi lâu, ít vận động**: Có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn. - [advertisingvietnam.com](https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so)\n\nNếu bạn cần thêm thông tin hoặc có câu hỏi khác, hãy cho tôi biết!",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "chế độ ăn cho skinny fat",
+            "topic": "general",
+            "timeframe": "week",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "chế độ ăn cho skinny fat",
+            "topic": "general",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "\"2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                "url": "https://www.instagram.com/p/DfbA0YTE0EV",
+                "source": "instagram.com",
+                "summary": "... Skinny Fat * Chế độ ăn uống thiếu hụt protein và dưỡng chất: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. * Ít vận động hoặc",
+                "score": 0.86441374
+              },
+              {
+                "title": "'Skinny fat' - hội chứng âm thầm phá hoại sức khỏe dân công sở - Báo VnExpress Sức khỏe",
+                "url": "https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html",
+                "source": "vnexpress.net",
+                "summary": "Dn văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn.\n\nĐể cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cn mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng thời duy trì và tăng khối lượng cơ xương. Chế độ ăn nên ưu tiên thực phẩm tươi, rau xanh, trái cy, ngũ cốc nguyên hạt và các nguồn protein chất lượng như cá, trứng, thịt nạc, sữa và các loại đậu. [...] Thu Hà, 34 tuổi, kế toán, cao 1,63 m và nặng 50 kg, cũng có cu chuyện tương tự. Cô tự hào về vóc dáng thon gọn cho đến khi một đợt khám sức khỏe cho thấy các chỉ số chuyển hóa bất thường. Chế độ ăn của cô thiếu rau xanh, ngày bận lại gọi đồ ăn nhanh, ngồi gần như cả ngày và ngủ không đủ giấc vào cuối tháng khi áp lực báo cáo tăng lên. [...] Người phụ nữ cho biết đặc thù công việc khiến cô phải ngồi trước máy tính 8-10 tiếng mỗi ngày. Hết giờ, cô nằm xem điện thoại, ít khi tập thể dục hay đi bộ. Cô thường ăn sáng qua loa bằng bánh ngọt hoặc cà phê, bữa trưa ăn ngay tại bàn, chiều thường gọi trà sữa, đồ ăn vặt. Buổi tối, có hôm Lan bỏ bữa, có hôm lại ăn nhiều. Áp lực công việc kéo dài, ngủ muộn và thiếu vận động khiến cô thường xuyên mệt mỏi, thiếu sức bền, bụng ngày càng tích mỡ dù cn nặng gần như không thay đổi. Tuy nhiên, vì vóc",
+                "score": 0.8098936
+              },
+              {
+                "title": "Skinny fat thì nên làm gì?",
+                "url": "https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722",
+                "source": "facebook.com",
+                "summary": "Chế độ ăn nhiều tinh bột (trên 60%) ✅Nhưng cơ thể vẫn thiếu săn chắc. ✅3vòng không rõ nét. Muốn hết skinny fat phải: ✔️ Tập tạ đúng kỹ thuật ✔️ Ưu tiên bài",
+                "score": 0.8091708
+              },
+              {
+                "title": "2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                "url": "https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524",
+                "source": "facebook.com",
+                "summary": "Chế độ ăn thiếu protein, thừa carb và chất béo → Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không",
+                "score": 0.751375
+              },
+              {
+                "title": "Skinny Fat và hội chứng “ngồi cả ngày”: Câu chuyện sức ...",
+                "url": "https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so",
+                "source": "advertisingvietnam.com",
+                "summary": "Thói quen ngồi lâu, ít vận động của dân công sở có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn",
+                "score": 0.26329312
+              }
+            ]
+          }
+        },
+        {
+          "tool": "format",
+          "args": {
+            "items": [
+              {
+                "title": "\"2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                "url": "https://www.instagram.com/p/DfbA0YTE0EV",
+                "source": "instagram.com",
+                "summary": "... Skinny Fat * Chế độ ăn uống thiếu hụt protein và dưỡng chất: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. * Ít vận động hoặc"
+              },
+              {
+                "title": "'Skinny fat' - hội chứng âm thầm phá hoại sức khỏe dân công sở - Báo VnExpress Sức khỏe",
+                "url": "https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html",
+                "source": "vnexpress.net",
+                "summary": "Dn văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn.\n\nĐể cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cn mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng thời duy trì và tăng khối lượng cơ xương. Chế độ ăn nên ưu tiên thực phẩm tươi, rau xanh, trái cy, ngũ cốc nguyên hạt và các nguồn protein chất lượng như cá, trứng, thịt nạc, sữa và các loại đậu. [...] Thu Hà, 34 tuổi, kế toán, cao 1,63 m và nặng 50 kg, cũng có cu chuyện tương tự. Cô tự hào về vóc dáng thon gọn cho đến khi một đợt khám sức khỏe cho thấy các chỉ số chuyển hóa bất thường. Chế độ ăn của cô thiếu rau xanh, ngày bận lại gọi đồ ăn nhanh, ngồi gần như cả ngày và ngủ không đủ giấc vào cuối tháng khi áp lực báo cáo tăng lên. [...] Người phụ nữ cho biết đặc thù công việc khiến cô phải ngồi trước máy tính 8-10 tiếng mỗi ngày. Hết giờ, cô nằm xem điện thoại, ít khi tập thể dục hay đi bộ. Cô thường ăn sáng qua loa bằng bánh ngọt hoặc cà phê, bữa trưa ăn ngay tại bàn, chiều thường gọi trà sữa, đồ ăn vặt. Buổi tối, có hôm Lan bỏ bữa, có hôm lại ăn nhiều. Áp lực công việc kéo dài, ngủ muộn và thiếu vận động khiến cô thường xuyên mệt mỏi, thiếu sức bền, bụng ngày càng tích mỡ dù cn nặng gần như không thay đổi. Tuy nhiên, vì vóc",
+                "score": 0.8098936
+              },
+              {
+                "title": "Skinny fat thì nên làm gì?",
+                "url": "https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722",
+                "source": "facebook.com",
+                "summary": "Chế độ ăn nhiều tinh bột (trên 60%) ✅Nhưng cơ thể vẫn thiếu săn chắc. ✅3vòng không rõ nét. Muốn hết skinny fat phải: ✔️ Tập tạ đúng kỹ thuật ✔️ Ưu tiên bài",
+                "score": 0.8091708
+              },
+              {
+                "title": "2 tuần bớt m.ở lưng, ra rãnh cho e gái skinyfat Skinny Fat ...",
+                "url": "https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524",
+                "source": "facebook.com",
+                "summary": "Chế độ ăn thiếu protein, thừa carb và chất béo → Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không",
+                "score": 0.751375
+              },
+              {
+                "title": "Skinny Fat và hội chứng “ngồi cả ngày”: Câu chuyện sức ...",
+                "url": "https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so",
+                "source": "advertisingvietnam.com",
+                "summary": "Thói quen ngồi lâu, ít vận động của dân công sở có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn",
+                "score": 0.26329312
+              }
+            ],
+            "headline": "Thông tin về chế độ ăn cho skinny fat"
+          },
+          "result": {
+            "tool": "render_digest",
+            "template": "sections",
+            "markdown": "# Thông tin về chế độ ăn cho skinny fat\n\n## Tổng hợp\n- ... Skinny Fat * Chế độ ăn uống thiếu hụt protein và dưỡng chất: Ăn ít đạm nhưng lại tiêu thụ nhiều đường, tinh bột tinh chế và đồ ăn nhanh. * Ít vận động hoặc - [instagram.com](https://www.instagram.com/p/DfbA0YTE0EV)\n- Dn văn phòng là nhóm dễ tổn thương vì lối sống ít vận động và ăn uống thất thường. Người hút thuốc hoặc uống nhiều rượu bia cũng đối mặt nguy cơ cao hơn.  Để cải thiện tình trạng gầy nhưng nhiều mỡ, mục tiêu không chỉ là giảm cn mà quan trọng hơn là giảm lượng mỡ dư thừa, đồng... - [vnexpress.net](https://vnexpress.net/skinny-fat-hoi-chung-am-tham-pha-hoai-suc-khoe-dan-cong-so-5140956.html)\n- Chế độ ăn nhiều tinh bột (trên 60%) ✅Nhưng cơ thể vẫn thiếu săn chắc. ✅3vòng không rõ nét. Muốn hết skinny fat phải: ✔️ Tập tạ đúng kỹ thuật ✔️ Ưu tiên bài - [facebook.com](https://www.facebook.com/100075649886084/posts/skinny-fat-th%C3%AC-n%C3%AAn-l%C3%A0m-g%C3%AC-tienhoang-kingkongsportwear-gym-fitness-gymmotivation-/1221372623727722)\n- Chế độ ăn thiếu protein, thừa carb và chất béo → Không đủ nguyên liệu xây cơ, dư calo chuyển thành mỡ. Chỉ tập cardio giảm cân → Giảm cân nhưng không - [facebook.com](https://www.facebook.com/phuong.anh.lam.878494/posts/2-tu%E1%BA%A7n-b%E1%BB%9Bt-m%E1%BB%9F-l%C6%B0ng-ra-r%C3%A3nh-cho-e-g%C3%A1i-skinyfatskinny-fat-hay-c%C3%B2n-g%E1%BB%8Di-l%C3%A0-t%E1%BA%A1ng-ng%C6%B0%E1%BB%9D/4940102182981524)\n- Thói quen ngồi lâu, ít vận động của dân công sở có thể khiến tỷ lệ mỡ và khối lượng cơ thay đổi, dẫn đến tình trạng skinny fat ngay cả khi cân nặng vẫn ổn - [advertisingvietnam.com](https://advertisingvietnam.com/article/skinny-fat-va-hoi-chung-ngoi-ca-ngay-cau-chuyen-suc-khoe-it-ai-de-tam-cua-dan-cong-so)\n",
+            "item_count": 5
+          }
+        }
+      ]
+    }
+  ],
+  "input_mode": "interactive_cli",
+  "updated_at": "2026-11-11T01:29:55"
+}

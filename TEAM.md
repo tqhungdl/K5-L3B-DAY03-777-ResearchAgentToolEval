@@ -2,18 +2,18 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm:
+- Tên nhóm: 777
 - Lớp: L3A / L3B
 - Repo nhóm: `K5-L3A-DAY03-TenNhom-ResearchAgentToolEval` hoặc `K5-L3B-DAY03-TenNhom-ResearchAgentToolEval` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo, nhánh nộp, commit chốt:
 
 ## Thành viên
 
-| STT | Họ tên          | MSSV        | Email | GitHub          | Vai trò |
-| --: | --------------- | ----------- | ----- | --------------- | ------- |
-|   1 | Trần Quang Hưng | 2A202603767 |       | tqhungdl        |         |
-|   2 | Nguyễn Tiến Đạt | 2A202603752 |       | chesschillchill |         |
-|   3 | Triệu Quốc Khánh| 2A202603749 |       | qockhah253      |         |
+| STT | Họ tên           | MSSV        | Email                      | GitHub          | Vai trò                             |
+| --: | ---------------- | ----------- | -------------------------- | --------------- | ----------------------------------- |
+|   1 | Trần Quang Hưng  | 2A202603767 |                            | tqhungdl        |                                     |
+|   2 | Nguyễn Tiến Đạt  | 2A202603752 | 26ai.datnt24@vinuni.edu.vn | chesschillchill | Cải thiện agent, xây dựng tools, UI |
+|   3 | Triệu Quốc Khánh | 2A202603749 |                            | qockhah253      |                                     |
 
 ## Cá nhân
 
