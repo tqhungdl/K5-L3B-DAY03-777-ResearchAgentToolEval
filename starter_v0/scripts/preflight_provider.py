@@ -12,21 +12,33 @@ from env_loader import load_lab_env
 from providers import make_provider
 from tools import load_tool_declarations, to_openai_tools
 
-
 load_lab_env(ROOT)
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Smoke-test live structured tool calling.")
-    parser.add_argument("--provider", choices=["openrouter", "openai", "anthropic", "gemini", "ollama"], required=True)
-    parser.add_argument("--model", default=None, help="Optional model override. Omit to use provider default from code.")
+    parser = argparse.ArgumentParser(
+        description="Smoke-test live structured tool calling."
+    )
+    parser.add_argument(
+        "--provider",
+        choices=["openrouter", "openai", "anthropic", "gemini", "ollama", "deepseek"],
+        required=True,
+    )
+    parser.add_argument(
+        "--model",
+        default=None,
+        help="Optional model override. Omit to use provider default from code.",
+    )
     parser.add_argument("--tools", type=Path, default=ARTIFACTS_DIR / "tools.yaml")
     args = parser.parse_args()
 
     provider = make_provider(args.provider)
     tools = to_openai_tools(load_tool_declarations(args.tools))
     messages = [
-        {"role": "system", "content": "You are a tool-routing smoke test. Use tools when appropriate."},
+        {
+            "role": "system",
+            "content": "You are a tool-routing smoke test. Use tools when appropriate.",
+        },
         {"role": "user", "content": "Tweet mới nhất của Sam Altman là gì?"},
     ]
     response = provider.complete(messages, tools, model=args.model, temperature=0.0)
