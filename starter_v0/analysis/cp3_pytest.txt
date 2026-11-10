@@ -1,0 +1,21 @@
+Command: python -m pytest -q
+Working directory: starter_v0/
+
+...................................................................sssss [ 70%]
+sssssssss.....................                                           [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_tools_todo.py:31: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:38: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:43: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:48: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:56: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:60: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:67: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:75: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:79: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:87: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:92: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:98: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:103: TODO CP3 (student): implement this test
+SKIPPED [1] tests/test_tools_todo.py:109: TODO CP3 (student): implement this test
+88 passed, 14 skipped in 0.16s
