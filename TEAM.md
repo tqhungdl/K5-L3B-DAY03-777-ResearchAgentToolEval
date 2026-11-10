@@ -11,8 +11,9 @@
 
 | STT | Họ tên          | MSSV        | Email | GitHub          | Vai trò |
 | --: | --------------- | ----------- | ----- | --------------- | ------- |
-|   1 |                 |             |       |                 |         |
+|   1 | Trần Quang Hưng | 2A202603767 |       | tqhungdl        |         |
 |   2 | Nguyễn Tiến Đạt | 2A202603752 |       | chesschillchill |         |
+|   3 | Triệu Quốc Khánh| 2A202603749 |       | qockhah253      |         |
 
 ## Cá nhân
 
