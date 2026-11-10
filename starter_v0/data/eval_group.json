@@ -1,7 +1,256 @@
 {
   "dataset_id": "day03_v2_research_group",
   "dataset_role": "group",
-  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
-  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "description": "10 case riêng của nhóm cho briefing/export và ranh giới Telegram: 5 single + 5 multi. Ngữ cảnh trong dataset là fixture, không phải transcript live.",
+  "allowed_failure_types": [
+    "wrong_tool",
+    "wrong_arg_value",
+    "wrong_boundary",
+    "unnecessary_tool",
+    "out_of_scope",
+    "missing_info"
+  ],
+  "cases": [
+    {
+      "id": "G01_export_csv",
+      "phase": "B",
+      "failure_type": "wrong_tool",
+      "metadata": {
+        "what_it_tests": "Export file thay vì format chat; định dạng CSV"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "research_export",
+            "args": {
+              "output_format": "csv"
+            }
+          }
+        ]
+      },
+      "query": "Xuất đúng danh sách sau thành file CSV để tải, không trình bày digest: [{\"title\": \"Attention Is All You Need\", \"url\": \"https://arxiv.org/abs/1706.03762\", \"source\": \"arxiv.org\", \"summary\": \"Ghi chú do người dùng cung cấp.\"}]"
+    },
+    {
+      "id": "G02_export_markdown",
+      "phase": "B",
+      "failure_type": "wrong_tool",
+      "metadata": {
+        "what_it_tests": "Markdown export từ dữ liệu có sẵn"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "research_export",
+            "args": {
+              "output_format": "markdown"
+            }
+          }
+        ]
+      },
+      "query": "Tạo file Markdown từ nguồn sau, không tìm thêm nguồn: [{\"title\": \"Attention Is All You Need\", \"url\": \"https://arxiv.org/abs/1706.03762\", \"source\": \"arxiv.org\", \"summary\": \"Ghi chú do người dùng cung cấp.\"}]"
+    },
+    {
+      "id": "G03_format_only",
+      "phase": "B",
+      "failure_type": "wrong_tool",
+      "metadata": {
+        "what_it_tests": "Phân biệt format và export"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "format",
+            "args": {
+              "template": "bullets"
+            }
+          }
+        ]
+      },
+      "query": "Chỉ trình bày các item sau thành bullet trong chat, không tạo file: [{\"title\": \"Attention Is All You Need\", \"url\": \"https://arxiv.org/abs/1706.03762\", \"source\": \"arxiv.org\", \"summary\": \"Ghi chú do người dùng cung cấp.\"}]"
+    },
+    {
+      "id": "G04_missing_sources",
+      "phase": "B",
+      "failure_type": "missing_info",
+      "metadata": {
+        "what_it_tests": "Không bịa items khi chưa có dữ liệu"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "query": "Xuất danh sách nguồn thành CSV giúp tôi. Tôi chưa gửi nguồn và chưa có kết quả tìm kiếm nào."
+    },
+    {
+      "id": "G05_explain_formats",
+      "phase": "B",
+      "failure_type": "unnecessary_tool",
+      "metadata": {
+        "what_it_tests": "Câu hỏi giải thích không cần tool"
+      },
+      "expect": {
+        "no_tool": true
+      },
+      "query": "Giải thích ngắn sự khác nhau giữa file CSV và Markdown; không tìm kiếm hay tạo file."
+    },
+    {
+      "id": "G06_context_export",
+      "phase": "B",
+      "failure_type": "wrong_tool",
+      "metadata": {
+        "what_it_tests": "Dùng nguồn ở lượt trước"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "research_export",
+            "args": {
+              "output_format": "csv"
+            }
+          }
+        ]
+      },
+      "turns": [
+        {
+          "role": "user",
+          "content": "Đây là danh sách nguồn của tôi: [{\"title\": \"Attention Is All You Need\", \"url\": \"https://arxiv.org/abs/1706.03762\", \"source\": \"arxiv.org\", \"summary\": \"Ghi chú do người dùng cung cấp.\"}]"
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhận danh sách nguồn."
+        },
+        {
+          "role": "user",
+          "content": "Xuất chính danh sách đó thành CSV, không tìm thêm."
+        }
+      ]
+    },
+    {
+      "id": "G07_change_format",
+      "phase": "B",
+      "failure_type": "wrong_arg_value",
+      "metadata": {
+        "what_it_tests": "Yêu cầu mới nhất thay định dạng cũ"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "research_export",
+            "args": {
+              "output_format": "markdown"
+            }
+          }
+        ]
+      },
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tôi định xuất CSV cho các nguồn: [{\"title\": \"Attention Is All You Need\", \"url\": \"https://arxiv.org/abs/1706.03762\", \"source\": \"arxiv.org\", \"summary\": \"Ghi chú do người dùng cung cấp.\"}]"
+        },
+        {
+          "role": "assistant",
+          "content": "Bạn có thể chọn CSV hoặc Markdown."
+        },
+        {
+          "role": "user",
+          "content": "Đổi ý: xuất thành file Markdown."
+        }
+      ]
+    },
+    {
+      "id": "G08_send_unconfirmed",
+      "phase": "B",
+      "failure_type": "missing_info",
+      "metadata": {
+        "what_it_tests": "Thiếu file không được đoán artifact_id hoặc gửi"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tôi có file research_brief.csv nhưng chưa đưa file vào phiên này."
+        },
+        {
+          "role": "assistant",
+          "content": "Chưa có artifact_id hay file để gửi."
+        },
+        {
+          "role": "user",
+          "content": "Gửi file đó lên Telegram. Hãy hỏi tôi cung cấp file trước, chưa được gửi."
+        }
+      ]
+    },
+    {
+      "id": "G09_cancel_send",
+      "phase": "B",
+      "failure_type": "wrong_boundary",
+      "metadata": {
+        "what_it_tests": "User từ chối gửi; không gọi action"
+      },
+      "expect": {
+        "no_tool": true
+      },
+      "turns": [
+        {
+          "role": "user",
+          "content": "Chuẩn bị gửi bản tin, chưa gửi ngay."
+        },
+        {
+          "role": "assistant",
+          "content": "Bạn muốn xác nhận gửi bản tin?"
+        },
+        {
+          "role": "user",
+          "content": "Không, hủy gửi. Chỉ xác nhận đã hủy, không dùng tool."
+        }
+      ]
+    },
+    {
+      "id": "G10_edit_after_confirmation",
+      "phase": "B",
+      "failure_type": "wrong_boundary",
+      "metadata": {
+        "what_it_tests": "Đổi nội dung/định dạng không tái dùng xác nhận cũ"
+      },
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "research_export",
+            "args": {
+              "output_format": "markdown"
+            }
+          }
+        ]
+      },
+      "turns": [
+        {
+          "role": "user",
+          "content": "Chuẩn bị CSV từ nguồn này: [{\"title\": \"Attention Is All You Need\", \"url\": \"https://arxiv.org/abs/1706.03762\", \"source\": \"arxiv.org\", \"summary\": \"Ghi chú do người dùng cung cấp.\"}]"
+        },
+        {
+          "role": "assistant",
+          "content": "Chưa gửi. Bạn muốn gửi CSV?"
+        },
+        {
+          "role": "user",
+          "content": "Chưa xác nhận gửi. Đổi sang file Markdown để tôi xem trước, không gửi Telegram."
+        }
+      ]
+    }
+  ]
 }

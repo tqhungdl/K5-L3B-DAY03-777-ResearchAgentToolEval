@@ -17,6 +17,8 @@ import io
 
 import pytest
 
+from artifact_store import ArtifactStore, CURRENT_ARTIFACTS
+
 from conftest import FakeResponse  # noqa: F401  (you will need it)
 from tools import TOOL_FUNCTIONS  # noqa: F401
 
@@ -224,3 +226,85 @@ def test_research_export_defaults_support_minimal_source_item() -> None:
     assert result["content"].startswith("# Research Briefing\n")
     assert "Source: example.com" in result["content"]
     assert result["item_count"] == 1
+
+
+# ---------------- send_document (CP4/CP5 extension) ----------------
+
+@pytest.fixture
+def telegram(monkeypatch):
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "test-secret")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "-100000")
+
+
+def _document_store():
+    store = ArtifactStore()
+    aid = store.add(TOOL_FUNCTIONS["research_export"](
+        items=[{"title": "Nghiên cứu", "url": "https://example.com/paper", "summary": "Kết quả tiếng Việt"}],
+        output_format="csv",
+    ))
+    return store, aid
+
+
+def test_document_upload_uses_exact_export_bytes_and_no_duplicate(telegram, fake_http):
+    store, aid = _document_store()
+    http = fake_http(FakeResponse({"ok": True, "result": {"message_id": 123}}))
+    token = CURRENT_ARTIFACTS.set(store)
+    try:
+        result = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+        second = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+    finally:
+        CURRENT_ARTIFACTS.reset(token)
+    assert result["status"] == "sent" and result["message_id"] == 123
+    assert result["sha256"] == store.artifacts[aid]["sha256"]
+    assert second["status"] == "already_sent"
+    assert len(http) == 1
+    assert http[0]["data"] == {"chat_id": "-100000", "caption": ""}
+    assert http[0]["files"]["document"] == ("research_brief.csv", store.artifacts[aid]["content"].encode("utf-8"), "text/csv")
+    assert http[0]["url"].endswith("/sendDocument")
+
+
+@pytest.mark.parametrize("confirmed", [False, "true", 1, None])
+def test_document_without_boolean_confirmation_never_calls_network(confirmed, fake_http):
+    http = fake_http(FakeResponse())
+    result = TOOL_FUNCTIONS["send_document"](artifact_id="x", confirmed=confirmed)
+    assert result["status"] == "needs_confirmation"
+    assert http == []
+
+
+def test_document_rejects_artifact_from_another_session(telegram, fake_http):
+    one, aid = _document_store()
+    two = ArtifactStore()
+    http = fake_http(FakeResponse())
+    token = CURRENT_ARTIFACTS.set(two)
+    try:
+        result = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+    finally:
+        CURRENT_ARTIFACTS.reset(token)
+    assert result["error"] == "ValueError"
+    assert http == []
+
+
+def test_document_missing_config_returns_error_without_request(fake_http):
+    store, aid = _document_store()
+    http = fake_http(FakeResponse())
+    token = CURRENT_ARTIFACTS.set(store)
+    try:
+        result = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+    finally:
+        CURRENT_ARTIFACTS.reset(token)
+    assert result["error"] == "ConfigurationError"
+    assert http == []
+
+
+def test_send_rejects_telegram_ok_false(telegram, fake_http):
+    fake_http(FakeResponse({"ok": False}))
+    result = TOOL_FUNCTIONS["send"](text="Bản tin demo", confirmed=True)
+    assert result["error"] == "TelegramError"
+    assert result.get("status") != "sent"
+
+
+def test_send_network_error_does_not_leak_bot_token(telegram, fake_http):
+    fake_http(RuntimeError("https://api.telegram.org/bottest-secret/sendMessage"))
+    result = TOOL_FUNCTIONS["send"](text="Bản tin demo", confirmed=True)
+    assert "error" in result
+    assert "test-secret" not in str(result)
