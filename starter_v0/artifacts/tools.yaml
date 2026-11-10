@@ -185,3 +185,52 @@ tools:
         max_pages: { type: integer, default: 5, description: "Số trang" }
         max_chars: { type: integer, default: 8000, description: "Số ký tự" }
       required: [arxiv_url]
+
+  # ---------------- Team tool (CP3) ----------------
+  - name: research_export
+    description: >-
+      Xuất danh sách nguồn đã có thành nội dung file Markdown hoặc CSV để tải xuống.
+      Dùng khi người dùng yêu cầu xuất file; dùng format khi chỉ cần trình bày trong chat.
+      Không tìm kiếm, đọc URL, gửi dữ liệu hay tự lưu file. Chỉ dùng items có thật từ
+      người dùng hoặc kết quả tool; nếu thiếu dữ liệu, hỏi lại hoặc thu thập nguồn trước.
+    parameters:
+      type: object
+      additionalProperties: false
+      properties:
+        items:
+          type: array
+          minItems: 1
+          description: "Nguồn đã có; mỗi item cần title và URL HTTP(S); giữ nguyên nội dung nguồn."
+          items:
+            type: object
+            properties:
+              title: { type: string, minLength: 1, description: "Tiêu đề nguồn" }
+              url: { type: string, minLength: 1, description: "URL nguồn HTTP(S)" }
+              source: { type: string, description: "Tên nguồn; bỏ trống sẽ dùng domain URL" }
+              summary: { type: string, description: "Tóm tắt hoặc ghi chú đã có; không tự thêm dữ kiện" }
+            required: [title, url]
+        output_format:
+          type: string
+          enum: [markdown, csv]
+          default: markdown
+          description: "Định dạng file theo yêu cầu người dùng, mặc định markdown"
+        title:
+          type: string
+          default: ""
+          description: "Tiêu đề Markdown; không dùng trong CSV"
+      required: [items]
+
+  - name: send_document
+    description: >-
+      Yêu cầu gửi file research_export đã có tới private channel Telegram của nhóm.
+      Dùng artifact_id đúng từ phiên; không nhận đường dẫn hoặc tự tạo nội dung file.
+      Gọi confirmed=false để runtime hỏi xác nhận đúng file và đích gửi; chỉ runtime
+      thực thi sau một lượt xác nhận riêng. Không dùng khi chỉ tải file hoặc gửi text.
+    parameters:
+      type: object
+      additionalProperties: false
+      properties:
+        artifact_id: { type: string, description: "ID file từ kết quả research_export hoặc SESSION_DATA.exports" }
+        caption: { type: string, default: "", maxLength: 1024, description: "Chú thích gửi kèm, sẽ hiển thị khi xác nhận" }
+        confirmed: { type: boolean, default: false, description: "Model luôn dùng false; runtime xác thực lượt xác nhận trước khi dùng true" }
+      required: [artifact_id]

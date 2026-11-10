@@ -10,7 +10,14 @@ Rules:
 """
 from __future__ import annotations
 
+import csv
+from copy import deepcopy
+from importlib import import_module
+import io
+
 import pytest
+
+from artifact_store import ArtifactStore, CURRENT_ARTIFACTS
 
 from conftest import FakeResponse  # noqa: F401  (you will need it)
 from tools import TOOL_FUNCTIONS  # noqa: F401
@@ -110,13 +117,194 @@ def test_policy_instruction_like_lines_go_to_untrusted_text() -> None:
 #   2. bad / missing input from the model (empty string, wrong type, out-of-enum value)
 #   3. failure path (missing key, HTTP error, timeout) -> returns error dict, does not raise
 
-def test_my_new_tool_happy_path() -> None:
-    pytest.skip(TODO)
+def test_research_export_markdown_preserves_sources_and_full_summaries() -> None:
+    summary = "Nghiên cứu AI tiếng Việt. " * 30
+    result = TOOL_FUNCTIONS["research_export"](
+        items=[
+            {"title": "Bài A", "url": "https://example.com/a", "summary": summary},
+            {"title": "Bài B", "url": "https://example.com/b", "source": "Nhóm B"},
+        ],
+        title="Bản tin nghiên cứu",
+    )
+
+    assert result["tool"] == "research_export"
+    assert result["filename"] == "research_brief.md"
+    assert result["mime_type"] == "text/markdown; charset=utf-8"
+    assert result["item_count"] == 2
+    content = result["content"]
+    assert content.startswith("# Bản tin nghiên cứu\n")
+    assert "## 1. Bài A" in content and "## 2. Bài B" in content
+    assert content.index("Bài A") < content.index("Bài B")
+    assert summary in content
+    assert "Source: example.com" in content
+    assert "Source: Nhóm B" in content
+    assert "<https://example.com/a>" in content
+    assert "<https://example.com/b>" in content
 
 
-def test_my_new_tool_bad_input_from_model() -> None:
-    pytest.skip(TODO)
+def test_research_export_csv_roundtrips_unicode_commas_quotes_and_newlines() -> None:
+    items = [{
+        "title": 'Bài báo, "AI"',
+        "url": "https://example.com/paper?a=1&b=2",
+        "source": "Nguồn nghiên cứu",
+        "summary": 'Dòng 1, có dấu phẩy\nDòng 2: "kết quả"',
+        "authors": ["Extra metadata is not exported"],
+    }]
+    result = TOOL_FUNCTIONS["research_export"](
+        items=items, output_format="csv", title="Not a CSV row",
+    )
+
+    assert result["filename"] == "research_brief.csv"
+    assert result["mime_type"] == "text/csv; charset=utf-8"
+    assert result["item_count"] == 1
+    reader = csv.DictReader(io.StringIO(result["content"], newline=""))
+    assert reader.fieldnames == ["title", "url", "source", "summary"]
+    assert list(reader) == [{key: items[0][key] for key in reader.fieldnames}]
+    assert result["content"].encode("utf-8").decode("utf-8") == result["content"]
 
 
-def test_my_new_tool_failure_returns_error_dict() -> None:
-    pytest.skip(TODO)
+@pytest.mark.parametrize("kwargs, message", [
+    ({}, "non-empty list"),
+    ({"items": []}, "non-empty list"),
+    ({"items": "not a list"}, "non-empty list"),
+    ({"items": [None]}, "must be an object"),
+    ({"items": [{"url": "https://example.com"}]}, "title is required"),
+    ({"items": [{"title": "   ", "url": "https://example.com"}]}, "title is required"),
+    ({"items": [{"title": "T"}]}, "url is required"),
+    ({"items": [{"title": "T", "url": "file:///tmp/source"}]}, "HTTP(S)"),
+    ({"items": [{"title": "T", "url": "https://"}]}, "HTTP(S)"),
+    ({"items": [{"title": "T", "url": "https://example.com/a b"}]}, "HTTP(S)"),
+    ({"items": [{"title": "T", "url": "https://example.com", "summary": None}]}, "summary must be a string"),
+    ({"items": [{"title": "T", "url": "https://example.com", "source": 42}]}, "source must be a string"),
+    ({"output_format": "pdf"}, "output_format"),
+    ({"output_format": []}, "output_format"),
+    ({"title": None}, "title must be a string"),
+])
+def test_research_export_bad_input_returns_error_dict(kwargs, message) -> None:
+    result = TOOL_FUNCTIONS["research_export"](**kwargs)
+
+    assert result["tool"] == "research_export"
+    assert result["error"] == "ValueError"
+    assert message in result["message"]
+    assert "content" not in result
+
+
+def test_research_export_serialization_failure_returns_error_dict(monkeypatch) -> None:
+    module = import_module("tools.research_export.tool")
+
+    def broken_writer(*args, **kwargs):
+        raise OSError("serialization unavailable")
+
+    monkeypatch.setattr(module.csv, "DictWriter", broken_writer)
+    result = TOOL_FUNCTIONS["research_export"](
+        items=[{"title": "T", "url": "https://example.com"}], output_format="csv",
+    )
+
+    assert result == {
+        "tool": "research_export",
+        "error": "OSError",
+        "message": "serialization unavailable",
+    }
+
+
+@pytest.mark.parametrize("output_format", ["markdown", "csv"])
+def test_research_export_does_not_mutate_input(output_format) -> None:
+    items = [{"title": "T", "url": "https://www.example.com/a", "authors": ["A"]}]
+    before = deepcopy(items)
+
+    result = TOOL_FUNCTIONS["research_export"](items=items, output_format=output_format)
+
+    assert "error" not in result
+    assert items == before
+
+
+def test_research_export_defaults_support_minimal_source_item() -> None:
+    result = TOOL_FUNCTIONS["research_export"](
+        items=[{"title": "T", "url": "https://example.com"}],
+    )
+
+    assert result["content"].startswith("# Research Briefing\n")
+    assert "Source: example.com" in result["content"]
+    assert result["item_count"] == 1
+
+
+# ---------------- send_document (CP4/CP5 extension) ----------------
+
+@pytest.fixture
+def telegram(monkeypatch):
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "test-secret")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "-100000")
+
+
+def _document_store():
+    store = ArtifactStore()
+    aid = store.add(TOOL_FUNCTIONS["research_export"](
+        items=[{"title": "Nghiên cứu", "url": "https://example.com/paper", "summary": "Kết quả tiếng Việt"}],
+        output_format="csv",
+    ))
+    return store, aid
+
+
+def test_document_upload_uses_exact_export_bytes_and_no_duplicate(telegram, fake_http):
+    store, aid = _document_store()
+    http = fake_http(FakeResponse({"ok": True, "result": {"message_id": 123}}))
+    token = CURRENT_ARTIFACTS.set(store)
+    try:
+        result = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+        second = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+    finally:
+        CURRENT_ARTIFACTS.reset(token)
+    assert result["status"] == "sent" and result["message_id"] == 123
+    assert result["sha256"] == store.artifacts[aid]["sha256"]
+    assert second["status"] == "already_sent"
+    assert len(http) == 1
+    assert http[0]["data"] == {"chat_id": "-100000", "caption": ""}
+    assert http[0]["files"]["document"] == ("research_brief.csv", store.artifacts[aid]["content"].encode("utf-8"), "text/csv")
+    assert http[0]["url"].endswith("/sendDocument")
+
+
+@pytest.mark.parametrize("confirmed", [False, "true", 1, None])
+def test_document_without_boolean_confirmation_never_calls_network(confirmed, fake_http):
+    http = fake_http(FakeResponse())
+    result = TOOL_FUNCTIONS["send_document"](artifact_id="x", confirmed=confirmed)
+    assert result["status"] == "needs_confirmation"
+    assert http == []
+
+
+def test_document_rejects_artifact_from_another_session(telegram, fake_http):
+    one, aid = _document_store()
+    two = ArtifactStore()
+    http = fake_http(FakeResponse())
+    token = CURRENT_ARTIFACTS.set(two)
+    try:
+        result = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+    finally:
+        CURRENT_ARTIFACTS.reset(token)
+    assert result["error"] == "ValueError"
+    assert http == []
+
+
+def test_document_missing_config_returns_error_without_request(fake_http):
+    store, aid = _document_store()
+    http = fake_http(FakeResponse())
+    token = CURRENT_ARTIFACTS.set(store)
+    try:
+        result = TOOL_FUNCTIONS["send_document"](artifact_id=aid, confirmed=True)
+    finally:
+        CURRENT_ARTIFACTS.reset(token)
+    assert result["error"] == "ConfigurationError"
+    assert http == []
+
+
+def test_send_rejects_telegram_ok_false(telegram, fake_http):
+    fake_http(FakeResponse({"ok": False}))
+    result = TOOL_FUNCTIONS["send"](text="Bản tin demo", confirmed=True)
+    assert result["error"] == "TelegramError"
+    assert result.get("status") != "sent"
+
+
+def test_send_network_error_does_not_leak_bot_token(telegram, fake_http):
+    fake_http(RuntimeError("https://api.telegram.org/bottest-secret/sendMessage"))
+    result = TOOL_FUNCTIONS["send"](text="Bản tin demo", confirmed=True)
+    assert "error" in result
+    assert "test-secret" not in str(result)

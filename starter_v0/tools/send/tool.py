@@ -5,11 +5,11 @@ from typing import Any
 
 import requests
 
-from tools._shared import TIMEOUT, err
+from tools._shared import TIMEOUT
 
 
 def send_telegram(text: str = "", confirmed: bool = False) -> dict[str, Any]:
-    if not confirmed:
+    if confirmed is not True:
         return {
             "tool": "send_telegram",
             "status": "needs_confirmation",
@@ -26,7 +26,11 @@ def send_telegram(text: str = "", confirmed: bool = False) -> dict[str, Any]:
             timeout=TIMEOUT,
         )
         response.raise_for_status()
-        return {"tool": "send_telegram", "status": "sent"}
+        payload = response.json()
+        if payload.get("ok") is not True:
+            return {"tool": "send_telegram", "error": "TelegramError", "message": "Telegram rejected the message"}
+        return {"tool": "send_telegram", "status": "sent", "message_id": payload.get("result", {}).get("message_id")}
     except Exception as exc:
-        return err("send_telegram", exc)
+        # HTTP exception URLs contain the bot token; never serialize them.
+        return {"tool": "send_telegram", "error": type(exc).__name__, "message": "Telegram delivery failed; verify channel configuration and delivery before retrying"}
 
