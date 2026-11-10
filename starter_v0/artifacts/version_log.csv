@@ -1,3 +1,4 @@
 version,author,changed_artifact,artifact_version,prompt_hash,tools_hash,reason,hypothesis,metric_before,metric_after,run_file
 v0,Khanh,baseline,v0+peb1c8179815b+te69bc53ed884,eb1c8179815b,e69bc53ed884,baseline,Đo hành vi chưa tối ưu trước khi sửa,,0.65,runs/v0_B_base_openrouter_20261110T181358669147.json
 v1,Khanh,system_prompt.md,v1+p7e9f7cbc553b+te69bc53ed884,7e9f7cbc553b,e69bc53ed884,Bỏ chỉ dẫn không hỏi cứ đoán; thêm quy tắc gọi clarify khi thiếu thông tin,Chỉ dẫn không hỏi cứ đoán gây lỗi missing_info (R10 R11),0.65,0.85,runs/v1_B_base_openrouter_20261110T183716697256.json
+v2,Khanh,tools.yaml,v2+p7e9f7cbc553b+t47ed1d47eb2e,7e9f7cbc553b,47ed1d47eb2e,Làm rõ khai báo clarify: mô tả khi nào dùng và bắt buộc response_type,Model bỏ response_type vì tham số tùy chọn và mô tả sơ sài (R10 R11),0.85,0.95,runs/v2_B_base_openrouter_20261110T184651465558.json
