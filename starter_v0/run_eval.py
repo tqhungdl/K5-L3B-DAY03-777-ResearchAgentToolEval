@@ -13,7 +13,6 @@ from providers import make_provider
 from tools import TOOL_FUNCTIONS, load_tool_declarations, to_openai_tools
 from versioning import artifact_version_dict, build_artifact_version
 
-
 ROOT = Path(__file__).parent
 ARTIFACTS_DIR = ROOT / "artifacts"
 DATA_DIR = ROOT / "data"
@@ -46,10 +45,14 @@ def validate_case_failure_types(cases: list[dict[str, Any]], path: Path) -> None
     if invalid:
         allowed = ", ".join(sorted(ALLOWED_CASE_FAILURE_TYPES))
         joined = "; ".join(invalid)
-        raise ValueError(f"Invalid failure_type in {path}: {joined}. Allowed: {allowed}")
+        raise ValueError(
+            f"Invalid failure_type in {path}: {joined}. Allowed: {allowed}"
+        )
 
 
-def validate_expected_tools(cases: list[dict[str, Any]], declarations: list[dict[str, Any]], path: Path) -> None:
+def validate_expected_tools(
+    cases: list[dict[str, Any]], declarations: list[dict[str, Any]], path: Path
+) -> None:
     declared = {item["name"] for item in declarations}
     implemented = set(TOOL_FUNCTIONS)
     invalid: list[str] = []
@@ -57,9 +60,13 @@ def validate_expected_tools(cases: list[dict[str, Any]], declarations: list[dict
         for call in case.get("expect", {}).get("tool_calls", []):
             name = call.get("name")
             if name not in declared:
-                invalid.append(f"{case.get('id', '<missing id>')}: {name!r} not declared in tools.yaml")
+                invalid.append(
+                    f"{case.get('id', '<missing id>')}: {name!r} not declared in tools.yaml"
+                )
             elif name not in implemented:
-                invalid.append(f"{case.get('id', '<missing id>')}: {name!r} has no implementation in tools.py")
+                invalid.append(
+                    f"{case.get('id', '<missing id>')}: {name!r} has no implementation in tools.py"
+                )
     if invalid:
         raise ValueError(f"Invalid expected tool in {path}: {'; '.join(invalid)}")
 
@@ -105,7 +112,9 @@ def normalize_value(value: Any) -> Any:
     return value
 
 
-def compare_subset(expected: dict[str, Any], actual: dict[str, Any]) -> tuple[bool, list[str], int, int]:
+def compare_subset(
+    expected: dict[str, Any], actual: dict[str, Any]
+) -> tuple[bool, list[str], int, int]:
     failures: list[str] = []
     total = 0
     correct = 0
@@ -129,17 +138,23 @@ def compare_subset(expected: dict[str, Any], actual: dict[str, Any]) -> tuple[bo
     return len(failures) == 0, failures, correct, total
 
 
-def best_arg_match(expected_args: dict[str, Any], actual_calls: list[tuple[int, dict[str, Any]]]) -> tuple[int, list[str], int, int] | None:
+def best_arg_match(
+    expected_args: dict[str, Any], actual_calls: list[tuple[int, dict[str, Any]]]
+) -> tuple[int, list[str], int, int] | None:
     best: tuple[int, list[str], int, int] | None = None
     for index, actual_call in actual_calls:
-        _, arg_failures, arg_correct, arg_total = compare_subset(expected_args, actual_call.get("args", {}))
+        _, arg_failures, arg_correct, arg_total = compare_subset(
+            expected_args, actual_call.get("args", {})
+        )
         candidate = (index, arg_failures, arg_correct, arg_total)
         if best is None or (arg_correct, -len(arg_failures)) > (best[2], -len(best[1])):
             best = candidate
     return best
 
 
-def evaluate_phase_b(case: dict[str, Any], tool_calls: list[dict[str, Any]], text: str | None) -> dict[str, Any]:
+def evaluate_phase_b(
+    case: dict[str, Any], tool_calls: list[dict[str, Any]], text: str | None
+) -> dict[str, Any]:
     expect = case["expect"]
     case_failure_type = case["failure_type"]
     if expect.get("no_tool"):
@@ -161,7 +176,9 @@ def evaluate_phase_b(case: dict[str, Any], tool_calls: list[dict[str, Any]], tex
     routing_correct = True
     args_correct = True
     observed_mismatch: str | None = None
-    unmatched_actual: dict[int, dict[str, Any]] = {index: call for index, call in enumerate(tool_calls)}
+    unmatched_actual: dict[int, dict[str, Any]] = {
+        index: call for index, call in enumerate(tool_calls)
+    }
 
     for expected_call in expected_calls:
         same_name = [
@@ -213,7 +230,11 @@ def evaluate_phase_b(case: dict[str, Any], tool_calls: list[dict[str, Any]], tex
 
 def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
     total = len(results)
-    measured = [item for item in results if item["result"].get("failure_type") != "provider_error"]
+    measured = [
+        item
+        for item in results
+        if item["result"].get("failure_type") != "provider_error"
+    ]
     provider_errors = total - len(measured)
     passed = sum(1 for item in measured if item["result"]["passed"])
     summary: dict[str, Any] = {
@@ -229,11 +250,17 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
         routing = sum(1 for item in phase_b if item["result"].get("routing_correct"))
         args = sum(1 for item in phase_b if item["result"].get("args_correct"))
         multi = [item for item in phase_b if item.get("is_multiturn")]
-        summary.update({
-            "tool_routing_accuracy": round(routing / len(phase_b), 4),
-            "argument_accuracy": round(args / len(phase_b), 4),
-            "multiturn_accuracy": round(sum(1 for item in multi if item["result"]["passed"]) / len(multi), 4) if multi else None,
-        })
+        summary.update(
+            {
+                "tool_routing_accuracy": round(routing / len(phase_b), 4),
+                "argument_accuracy": round(args / len(phase_b), 4),
+                "multiturn_accuracy": round(
+                    sum(1 for item in multi if item["result"]["passed"]) / len(multi), 4
+                )
+                if multi
+                else None,
+            }
+        )
 
     failure_counts: dict[str, int] = {}
     observed_mismatch_counts: dict[str, int] = {}
@@ -243,7 +270,9 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
             failure_counts[failure_type] = failure_counts.get(failure_type, 0) + 1
         observed_mismatch = item["result"].get("observed_mismatch")
         if observed_mismatch:
-            observed_mismatch_counts[observed_mismatch] = observed_mismatch_counts.get(observed_mismatch, 0) + 1
+            observed_mismatch_counts[observed_mismatch] = (
+                observed_mismatch_counts.get(observed_mismatch, 0) + 1
+            )
     summary["failure_counts"] = failure_counts
     summary["observed_mismatch_counts"] = observed_mismatch_counts
     return summary
@@ -262,18 +291,31 @@ def print_table(results: list[dict[str, Any]], summary: dict[str, Any]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run Research Agent live evals.")
     parser.add_argument("--phase", choices=["B"], default="B")
-    parser.add_argument("--suite", choices=["base", "group", "cross", "extension"], default="base", help="Run label saved to JSON; does not filter --eval-cases.")
+    parser.add_argument(
+        "--suite",
+        choices=["base", "group", "cross", "extension"],
+        default="base",
+        help="Run label saved to JSON; does not filter --eval-cases.",
+    )
     parser.add_argument("--version", required=True)
-    parser.add_argument("--provider", choices=["openai", "openrouter", "anthropic", "gemini", "ollama"], required=True)
+    parser.add_argument(
+        "--provider",
+        choices=["openai", "openrouter", "anthropic", "gemini", "ollama", "deepseek"],
+        required=True,
+    )
     parser.add_argument("--model", default=None)
-    parser.add_argument("--system-prompt", type=Path, default=ARTIFACTS_DIR / "system_prompt.md")
+    parser.add_argument(
+        "--system-prompt", type=Path, default=ARTIFACTS_DIR / "system_prompt.md"
+    )
     parser.add_argument("--tools", type=Path, default=ARTIFACTS_DIR / "tools.yaml")
     parser.add_argument("--eval-cases", type=Path, default=DATA_DIR / "eval_base.json")
     parser.add_argument("--runs-dir", type=Path, default=ROOT / "runs")
     args = parser.parse_args()
 
     system_prompt = args.system_prompt.read_text(encoding="utf-8")
-    artifact_version = build_artifact_version(args.version, args.system_prompt, args.tools)
+    artifact_version = build_artifact_version(
+        args.version, args.system_prompt, args.tools
+    )
     provider = make_provider(args.provider)
     selected_model = args.model or getattr(provider, "default_model", None)
     dataset_info = load_dataset_info(args.eval_cases)
@@ -288,7 +330,9 @@ def main() -> None:
     results: list[dict[str, Any]] = []
     for case in cases:
         print(f"Running {case['id']}...", flush=True)
-        agent = ResearchAgent(provider, system_prompt=system_prompt, tools=openai_tools, model=args.model)
+        agent = ResearchAgent(
+            provider, system_prompt=system_prompt, tools=openai_tools, model=args.model
+        )
         try:
             tool_choice = None if case["expect"].get("no_tool") else "required"
             run = agent.run(case_messages(case), tool_choice=tool_choice)
@@ -309,31 +353,35 @@ def main() -> None:
                 "routing_correct": False,
                 "args_correct": False,
             }
-        results.append({
-            "id": case["id"],
-            "phase": case["phase"],
-            "suite": args.suite,
-            "case_suite": case.get("suite", args.suite),
-            "is_multiturn": "turns" in case,
-            "metadata": case.get("metadata", {}),
-            "input": case.get("input") or case.get("query") or case.get("turns"),
-            "expect": case["expect"],
-            "result": result,
-            "tool_results": tool_results,
-        })
+        results.append(
+            {
+                "id": case["id"],
+                "phase": case["phase"],
+                "suite": args.suite,
+                "case_suite": case.get("suite", args.suite),
+                "is_multiturn": "turns" in case,
+                "metadata": case.get("metadata", {}),
+                "input": case.get("input") or case.get("query") or case.get("turns"),
+                "expect": case["expect"],
+                "result": result,
+                "tool_results": tool_results,
+            }
+        )
 
     summary = summarize(results)
     args.runs_dir.mkdir(parents=True, exist_ok=True)
     now = datetime.now()
     generated_at = now.isoformat(timespec="seconds")
     timestamp = now.strftime("%Y%m%dT%H%M%S%f")
-    run_id = "_".join([
-        safe_slug(args.version),
-        safe_slug(args.phase),
-        safe_slug(args.suite),
-        safe_slug(args.provider),
-        timestamp,
-    ])
+    run_id = "_".join(
+        [
+            safe_slug(args.version),
+            safe_slug(args.phase),
+            safe_slug(args.suite),
+            safe_slug(args.provider),
+            timestamp,
+        ]
+    )
     payload = {
         "run_id": run_id,
         "version": args.version,
@@ -352,7 +400,9 @@ def main() -> None:
     }
 
     out_path = args.runs_dir / f"{run_id}.json"
-    out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+    out_path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+    )
     print_table(results, summary)
     print(f"\nArtifact version: {artifact_version.artifact_version}")
     print(f"\nSaved: {out_path}")

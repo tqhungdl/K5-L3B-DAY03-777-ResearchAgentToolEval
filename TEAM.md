@@ -9,10 +9,10 @@
 
 ## Thành viên
 
-| STT | Họ tên | MSSV | Email | GitHub | Vai trò |
-| --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        |         |
-|   2 |        |      |       |        |         |
+| STT | Họ tên          | MSSV        | Email | GitHub          | Vai trò |
+| --: | --------------- | ----------- | ----- | --------------- | ------- |
+|   1 |                 |             |       |                 |         |
+|   2 | Nguyễn Tiến Đạt | 2A202603752 |       | chesschillchill |         |
 
 ## Cá nhân
 
