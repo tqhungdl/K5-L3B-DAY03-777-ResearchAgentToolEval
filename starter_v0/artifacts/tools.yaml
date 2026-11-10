@@ -127,12 +127,22 @@ tools:
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: "Gửi một đoạn văn bản đi (hành động có tác dụng thật, không thu hồi được). Chỉ gọi sau khi người dùng đã xác nhận rõ nội dung cần gửi. Nếu chưa được xác nhận, gọi clarify với response_type yes_no để hỏi trước. Không gọi tool này cho yêu cầu chỉ soạn hoặc xem trước nội dung."
     parameters:
       type: object
       properties:
-        text: { type: string, default: "", description: "Nội dung" }
-        confirmed: { type: boolean, default: false, description: "Cờ xác nhận" }
+        text:
+          {
+            type: string,
+            default: "",
+            description: "Nội dung chính xác cần gửi, đúng bản người dùng đã xác nhận",
+          }
+        confirmed:
+          {
+            type: boolean,
+            default: false,
+            description: "Chỉ đặt true khi người dùng đã trả lời đồng ý rõ ràng ở lượt trước. Mặc định false, khi false thì tin chưa được gửi đi",
+          }
       required: [text]
 
   - name: policy
