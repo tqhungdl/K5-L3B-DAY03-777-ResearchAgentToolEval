@@ -32,10 +32,14 @@
 ## 4. Bằng chứng
 
 - File/commit/PR (nhánh `main`):
-  - v2: commit `a7d0452`, run `starter_v0/runs/v2_B_base_openrouter_20261110T193758373016.json`
-  - v4: commit `e65b1e5`, run `starter_v0/runs/v4_B_base_openrouter_20261110T235816402814.json`
-  - Bảng B1: commit `05ffbca`
-  - Nhánh cá nhân `feature/QuocKhanh`: commit `7a9e47a` (v1), `aa10542` (v2), `4d604d7` (v3)
+  - v2: commit [`a7d0452`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/a7d0452), [`system_prompt.md`](../../starter_v0/artifacts/system_prompt.md), [run v2 base 16/20](../../starter_v0/runs/v2_B_base_openrouter_20261110T193758373016.json)
+  - v4: commit [`e65b1e5`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/e65b1e5), [`tools.yaml`](../../starter_v0/artifacts/tools.yaml), [run v4 base](../../starter_v0/runs/v4_B_base_openrouter_20261110T235816402814.json)
+  - v5 (thử nghiệm, không dùng): commit [`ece7fb1`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/ece7fb1), [run v5 base](../../starter_v0/runs/v5_B_base_openrouter_20261111T091650830418.json), [run v5 group](../../starter_v0/runs/v5_B_group_openrouter_20261111T091959082688.json); revert về v4: commit [`b557861`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/b557861)
+  - Bảng B1: commit [`05ffbca`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/05ffbca), v5 và ghi chú "không dùng": commits [`6dbba07`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/6dbba07), [`2dd1a9b`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/2dd1a9b)
+  - Bảng B2: commit [`0657db9`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/0657db9), [run v0](../../starter_v0/runs/v0_B_base_openrouter_20261110T181849652314.json)
+  - Báo cáo cá nhân và `TEAM.md`: commits [`5f3602c`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/5f3602c), [`b173e06`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/b173e06), [`9195b65`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/9195b65)
+  - [`version_log.csv`](../../starter_v0/artifacts/version_log.csv): hash prompt/tools và `run_file` của từng version
+  - Nhánh cá nhân [`feature/QuocKhanh`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/tree/feature/QuocKhanh): commit [`7a9e47a`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/7a9e47a) (v1), [`aa10542`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/aa10542) (v2), [`4d604d7`](https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/4d604d7) (v3)
 - AI/công cụ đã dùng và cách tự kiểm tra kết quả:
   - Dùng Claude để hướng dẫn từng bước và soạn nháp nội dung sửa.
   - Tự kiểm tra bằng `pytest tests/test_tool_contract.py` (55 passed) sau mỗi lần sửa `tools.yaml`, chạy `run_eval.py` rồi đọc `actual_tool_calls` và `failures` trong file run để xác định case nào đổi trạng thái, không dựa vào tên nhãn lỗi.
