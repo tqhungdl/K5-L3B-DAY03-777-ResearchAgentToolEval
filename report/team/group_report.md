@@ -169,6 +169,9 @@ Lỗi đặc thù của model nhỏ (đếm từ run JSON):
 
 ## 5. Khó khăn và cách xử lý
 
+- Lượng lớn dữ liệu JSON, nhiều tham số, khó đọc và xử lý. Nhóm sử dụng script chuyển thành CSV kết hợp AI để trích xuất và phân tích dữ liệu từ các file run JSON.
+- Phân chia công việc do nhiều quy trình đòi hỏi sự tuần tự. Nhóm phân chia việc viết test, cải thiện mô hình và xây dựng mô hình cho 3 thành viên và chạy eval sau.
+
 ## 6. Tổng hợp đóng góp
 
 Chi tiết đóng góp của từng thành viên nằm trong [TEAM.md](../../TEAM.md) và các báo cáo cá nhân `report/team/MSSV_HoTen.md`.
@@ -176,5 +179,6 @@ Chi tiết đóng góp của từng thành viên nằm trong [TEAM.md](../../TEA
 ## 7. Hạn chế và hướng cải thiện — B6. Reflection
 
 - Chưa pass đầy đủ 20 case. Cần đào sâu thêm để tìm giải pháp, thử nghiệm thêm với các model mạnh hơn.
+- Agent khi research chưa phân loại nguồn tin đáng tin cậy hay không, còn lấy từ các nguồn tin facebook, instagram khi hỏi về các vấn đề sức khỏe. Hướng đi có thể là tạo một tools để loại bỏ các nguồn tin không chính thống khi tìm kiếm về sức khỏe, vẫn giữ lại tìm kiếm trên mạng xã hội với các chủ đề khác để đảm bảo sự đa chiều khi research.
 
 ## 8. Tài liệu tham khảo
