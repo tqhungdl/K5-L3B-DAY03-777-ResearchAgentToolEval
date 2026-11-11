@@ -72,7 +72,7 @@ Lấy từ `starter_v0/artifacts/version_log.csv` và `starter_v0/runs/*.json`. 
 | v2 | system_prompt.md | Chỉ dẫn "đoán, đừng hỏi" trong prompt làm model không hỏi lại khi thiếu thông tin (R10, R11) | 0.75 | 0.80 | `starter_v0/runs/v2_B_base_openrouter_20261110T193758373016.json` (commit `a7d0452`) |
 | v3      |                  |            |               |              |          |
 | v4 | tools.yaml | Model bỏ `response_type` của `clarify` vì tham số tùy chọn và mô tả sơ sài (R10, R11) | 0.85 | 0.95 | `starter_v0/runs/v4_B_base_openrouter_20261110T235816402814.json` (commit `e65b1e5`) |
-| v5 | system_prompt.md | Câu "one short yes/no question" ở v3 ép mọi `clarify` thành `yes_no`; dạy prompt dùng `text` khi thiếu thông tin và `yes_no` khi xác nhận gửi (R12, G04, G08) | 0.95 | 0.90 (nhóm 8/10 → 9/10) | `starter_v0/runs/v5_B_base_openrouter_20261111T091650830418.json`, `starter_v0/runs/v5_B_group_openrouter_20261111T091959082688.json` (commit `ece7fb1`) |
+| v5 | system_prompt.md | Câu "one short yes/no question" ở v3 ép mọi `clarify` thành `yes_no`; dạy prompt dùng `text` khi thiếu thông tin và `yes_no` khi xác nhận gửi (R12, G04, G08) | 0.95 | 0.90 (nhóm 8/10 → 9/10) | `starter_v0/runs/v5_B_base_openrouter_20261111T091650830418.json`, `starter_v0/runs/v5_B_group_openrouter_20261111T091959082688.json` (commit `ece7fb1`). **KHÔNG DÙNG**: thử nghiệm bị loại (hòa 27/30 với v4, base giảm 0.95 → 0.90), đã revert prompt về v4 ở commit `b557861` |
 
 ### B2. Failure Analysis
 
