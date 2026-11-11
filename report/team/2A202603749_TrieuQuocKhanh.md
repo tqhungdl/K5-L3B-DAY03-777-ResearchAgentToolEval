@@ -4,7 +4,7 @@
 
 - Họ tên: Triệu Quốc Khánh
 - MSSV: 2A202603749
-- Email: (tự điền)
+- Email: (để trống)
 - GitHub: qockhah253
 
 ## 2. Phần việc phụ trách
@@ -14,6 +14,7 @@
 | CP2: v2 | Sửa `system_prompt.md`: bỏ chỉ dẫn "đoán, đừng hỏi", thêm rule gọi `clarify` khi thiếu thông tin | `starter_v0/artifacts/system_prompt.md` |
 | CP2: v4 | Sửa khai báo `clarify` trong `tools.yaml`: bắt buộc `response_type`, mô tả khi nào dùng | `starter_v0/artifacts/tools.yaml` |
 | Báo cáo nhóm | Điền hàng v2 và v4 của bảng B1, bảng B2 (phân tích 7 case FAIL của v0) | `report/team/group_report.md` |
+| Thử nghiệm v5 (bị loại) | Sửa `system_prompt.md` để `clarify` dùng `text` khi thiếu thông tin, `yes_no` khi xác nhận gửi; không giữ vì không hơn v4 | `starter_v0/runs/v5_B_*.json` |
 | Thử nghiệm cá nhân | Chạy riêng chuỗi v1 đến v3 trên nhánh `feature/QuocKhanh` để hiểu từng giả thuyết | nhánh `feature/QuocKhanh` |
 
 ## 3. Đóng góp cụ thể
@@ -23,6 +24,7 @@
 | v2 | Chỉ dẫn "đoán, đừng hỏi" làm model không hỏi lại khi thiếu thông tin (R10, R11) | 0.75 | 0.80 | R10 và R11 đã gọi `clarify` nhưng thiếu `response_type`. R08 và R13 chuyển PASS, M06 chuyển FAIL; chưa tách được cơ chế |
 | v4 | Model bỏ `response_type` vì tham số tùy chọn và mô tả sơ sài | 0.85 | 0.95 | R10 và R11 PASS. Còn R12 (gửi ngay không hỏi xác nhận) |
 
+- v5 (thử nghiệm, không dùng): commit `ece7fb1`, run `starter_v0/runs/v5_B_base_openrouter_20261111T091650830418.json` và `starter_v0/runs/v5_B_group_openrouter_20261111T091959082688.json`. Tổng điểm hòa với v4 (27/30), nên revert về v4 ở commit `b557861`.
 - Mỗi version chỉ đổi một artifact, hash prompt và tools ghi trong `starter_v0/artifacts/version_log.csv`.
 - Bảng B2 lấy `actual_tool_calls` và `failures` từ run v0, cột Fix đối chiếu với run v1 đến v4.
 - Trên nhánh cá nhân, chuỗi thử riêng cho kết quả 0.65, 0.85, 0.95, 0.85. Bản v3 cá nhân (thêm ranh giới xác nhận cho `send`) làm R12 không còn tự gửi nhưng sai `response_type`, và M02, M06 mới FAIL ổn định qua 2 lần chạy. Chưa xác định phần nào của thay đổi gây ra việc này.
