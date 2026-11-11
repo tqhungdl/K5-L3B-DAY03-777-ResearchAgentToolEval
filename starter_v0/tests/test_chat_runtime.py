@@ -157,7 +157,7 @@ def test_repeated_tool_calls_stop_without_duplicate_execution(monkeypatch):
 def test_group_dataset_has_exactly_five_single_and_five_multi():
     import json
     from pathlib import Path
-    data = json.loads((Path(__file__).parents[1] / "data/eval_group.json").read_text())
+    data = json.loads((Path(__file__).parents[1] / "data/eval_group.json").read_text(encoding="utf-8"))
     cases = data["cases"]
     assert len(cases) == len({c["id"] for c in cases}) == 10
     assert sum("query" in c for c in cases) == sum("turns" in c for c in cases) == 5
