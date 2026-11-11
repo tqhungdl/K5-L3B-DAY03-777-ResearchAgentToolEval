@@ -79,7 +79,15 @@ Lấy từ `results[*].result.failures` trong run JSON.
 
 | Case ID | Failure Type | Actual Tool Calls | What Failed | Fix |
 | ------- | ------------ | ----------------- | ----------- | --- |
-|         |              |                   |             |     |
+| R03_web_news_routing | wrong_tool | `lookup(query="AI news", topic="news", timeframe="day")` | `query` mong đợi "AI", model viết "AI news" (`wrong_arg_value`) | v1 (Đạt): làm rõ mô tả `query` của `lookup` trong `tools.yaml`. PASS từ v1 |
+| R08_out_of_scope | out_of_scope | `send(text="Nguyên hàm của x^2 là ...")` | Câu hỏi ngoài phạm vi nhưng model gọi `send` thay vì trả lời thẳng (`unexpected_tool_call`) | v2 (Khánh): bỏ các chỉ dẫn "fast, proactive" và "đoán, đừng hỏi" trong `system_prompt.md`. PASS từ v2, chưa tách được chỉ dẫn nào gây ra lỗi |
+| R10_missing_handle | missing_info | `timeline(screenname="sama")` | Thiếu tên tài khoản nhưng model tự đoán "sama" thay vì gọi `clarify` (`missing_tool_call`) | v2: thêm rule gọi `clarify` trong prompt, model đã hỏi lại nhưng thiếu `response_type`. v4 (Khánh): bắt buộc `response_type` trong khai báo `clarify`. PASS từ v4 |
+| R11_missing_url | missing_info | `fetch(url="https://example.com/article")` | Thiếu URL nhưng model tự bịa URL thay vì gọi `clarify` (`missing_tool_call`) | Như R10. PASS từ v4 |
+| R12_confirm_before_send | wrong_boundary | `send(text="Bản tin này")` | Model gửi ngay, không gọi `clarify` với `yes_no` để xin xác nhận (`missing_tool_call`) | Chưa sửa được, còn FAIL ở v4. Hướng thử tiếp: bỏ đoạn "just go ahead" trong prompt và thêm ranh giới xác nhận cho `send` trong `tools.yaml` |
+| R13_parallel_web_and_tweets | wrong_tool | `lookup(query="AI news", timeframe="day")` + `social_search(query="AI")` | `query` thành "AI news" và thiếu `topic="news"` (`wrong_arg_value`) | PASS từ v2 (v1 chưa sửa được). Chưa giải thích được cơ chế |
+| R14_out_of_scope_coding | out_of_scope | `send(text="Dưới đây là một hàm Python ...")` | Câu hỏi lập trình ngoài phạm vi nhưng model gọi `send` (`unexpected_tool_call`) | PASS từ v1 dù v1 chỉ sửa mô tả `lookup`. Chưa giải thích được cơ chế |
+
+Nguồn: `starter_v0/runs/v0_B_base_openrouter_20261110T181849652314.json` (13/20 PASS, 7 case FAIL, `provider_error_cases = 0`). Cột Fix đối chiếu với run v1 đến v4 trong `starter_v0/runs/`.
 
 ### B3. Team Eval Cases
 
