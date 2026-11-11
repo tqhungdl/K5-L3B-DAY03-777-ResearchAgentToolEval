@@ -11,7 +11,7 @@
 
 | STT | Họ tên           | MSSV        | Email                      | GitHub          | Vai trò                             |
 | --: | ---------------- | ----------- | -------------------------- | --------------- | ----------------------------------- |
-|   1 | Trần Quang Hưng  | 2A202603767 |                            | tqhungdl        |                                     |
+|   1 | Trần Quang Hưng  | 2A202603767 | 26ai.26ai.hungtq4@vinuni.edu.vn | tqhungdl   | Sửa prompt, viết tool test           |
 |   2 | Nguyễn Tiến Đạt  | 2A202603752 | 26ai.datnt24@vinuni.edu.vn | chesschillchill | Cải thiện agent, xây dựng tools, UI |
 |   3 | Triệu Quốc Khánh | 2A202603749 | 26ai.khanhtq4@vinuni.edu.vn | qockhah253      | Sửa prompt và khai báo tool (v2, v4)|
 
