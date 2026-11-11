@@ -63,30 +63,30 @@ python -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
 
 ### B1. Version Evidence
 
-Lấy từ `starter_v0/artifacts/version_log.csv` và `starter_v0/runs/*.json`. Chỉ dùng run có `provider_error_cases == 0` và `measured_cases == total_cases`. Metric Before/After là `summary.case_accuracy` của bộ base eval.
+Lấy từ `starter_v0/artifacts/version_log.csv` và `starter_v0/runs/*.json`. Chỉ dùng run có `provider_error_cases == 0` và `measured_cases == total_cases`.
 
-| Version | Changed Artifact | Hypothesis                                                                                                                                                           | Metric Before |            Metric After | Run File                                                                                                                                                                                                                                                                          |
-| ------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------: | ----------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| v0      | baseline         | baseline                                                                                                                                                             |             — |                    0.65 | `starter_v0/runs/v0_B_base_openrouter_20261110T181849652314.json` (commit `8b3181b`)                                                                                                                                                                                              |
-| v1      | tools.yaml       | Mô tả `query` của `lookup` chỉ ghi "Truy vấn" khiến model thêm "news" vào query dù đã có `topic="news"`; làm rõ ý nghĩa `query` để sửa `wrong_arg_value` (R03, R13). |          0.65 |                    0.75 | `starter_v0/runs/v1_B_base_openrouter_20261110T191359165510.json` (commit `8b3181b`)                                                                                                                                                                                              |
-| v2      | system_prompt.md | Chỉ dẫn "đoán, đừng hỏi" trong prompt làm model không hỏi lại khi thiếu thông tin (R10, R11)                                                                         |          0.75 |                    0.80 | `starter_v0/runs/v2_B_base_openrouter_20261110T193758373016.json` (commit `a7d0452`)                                                                                                                                                                                              |
-| v3      | system_prompt.md | Cải thiện khả năng xử lý tình huống cần phải xác nhận với người dùng; sửa chỉ dẫn hỏi lại khi gọi tool `clarify`.                                                    |          0.80 |                    0.85 | `starter_v0/runs/v3_B_base_openrouter_20261110T221357670226.json` (commit `a8384b1`)                                                                                                                                                                                              |
-| v4      | tools.yaml       | Model bỏ `response_type` của `clarify` vì tham số tùy chọn và mô tả sơ sài (R10, R11)                                                                                |          0.85 |                    0.95 | `starter_v0/runs/v4_B_base_openrouter_20261110T235816402814.json` (commit `e65b1e5`)                                                                                                                                                                                              |
-| v5      | system_prompt.md | Câu "one short yes/no question" ở v3 ép mọi `clarify` thành `yes_no`; dạy prompt dùng `text` khi thiếu thông tin và `yes_no` khi xác nhận gửi (R12, G04, G08)        |          0.95 | 0.90 (nhóm 8/10 → 9/10) | `starter_v0/runs/v5_B_base_openrouter_20261111T091650830418.json`, `starter_v0/runs/v5_B_group_openrouter_20261111T091959082688.json` (commit `ece7fb1`). **KHÔNG DÙNG**: thử nghiệm bị loại (hòa 27/30 với v4, base giảm 0.95 → 0.90), đã revert prompt về v4 ở commit `b557861` |
+| Version | Changed Artifact | Hypothesis | Metric Before | Metric After | Run File |
+| ------- | ---------------- | ---------- | ------------: | -----------: | -------- |
+| v0      | baseline         |            |               |              |          |
+| v1      |                  |            |               |              |          |
+| v2 | system_prompt.md | Chỉ dẫn "đoán, đừng hỏi" trong prompt làm model không hỏi lại khi thiếu thông tin (R10, R11) | 0.75 | 0.80 | `starter_v0/runs/v2_B_base_openrouter_20261110T193758373016.json` (commit `a7d0452`) |
+| v3      |                  |            |               |              |          |
+| v4 | tools.yaml | Model bỏ `response_type` của `clarify` vì tham số tùy chọn và mô tả sơ sài (R10, R11) | 0.85 | 0.95 | `starter_v0/runs/v4_B_base_openrouter_20261110T235816402814.json` (commit `e65b1e5`) |
+| v5 | system_prompt.md | Câu "one short yes/no question" ở v3 ép mọi `clarify` thành `yes_no`; dạy prompt dùng `text` khi thiếu thông tin và `yes_no` khi xác nhận gửi (R12, G04, G08) | 0.95 | 0.90 (nhóm 8/10 → 9/10) | `starter_v0/runs/v5_B_base_openrouter_20261111T091650830418.json`, `starter_v0/runs/v5_B_group_openrouter_20261111T091959082688.json` (commit `ece7fb1`). **KHÔNG DÙNG**: thử nghiệm bị loại (hòa 27/30 với v4, base giảm 0.95 → 0.90), đã revert prompt về v4 ở commit `b557861` |
 
 ### B2. Failure Analysis
 
 Lấy từ `results[*].result.failures` trong run JSON.
 
-| Case ID                     | Failure Type   | Actual Tool Calls                                                        | What Failed                                                                                 | Fix                                                                                                                                                               |
-| --------------------------- | -------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R03_web_news_routing        | wrong_tool     | `lookup(query="AI news", topic="news", timeframe="day")`                 | `query` mong đợi "AI", model viết "AI news" (`wrong_arg_value`)                             | v1 (Đạt): làm rõ mô tả `query` của `lookup` trong `tools.yaml`. PASS từ v1                                                                                        |
-| R08_out_of_scope            | out_of_scope   | `send(text="Nguyên hàm của x^2 là ...")`                                 | Câu hỏi ngoài phạm vi nhưng model gọi `send` thay vì trả lời thẳng (`unexpected_tool_call`) | v2 (Khánh): bỏ các chỉ dẫn "fast, proactive" và "đoán, đừng hỏi" trong `system_prompt.md`. PASS từ v2, chưa tách được chỉ dẫn nào gây ra lỗi                      |
-| R10_missing_handle          | missing_info   | `timeline(screenname="sama")`                                            | Thiếu tên tài khoản nhưng model tự đoán "sama" thay vì gọi `clarify` (`missing_tool_call`)  | v2: thêm rule gọi `clarify` trong prompt, model đã hỏi lại nhưng thiếu `response_type`. v4 (Khánh): bắt buộc `response_type` trong khai báo `clarify`. PASS từ v4 |
-| R11_missing_url             | missing_info   | `fetch(url="https://example.com/article")`                               | Thiếu URL nhưng model tự bịa URL thay vì gọi `clarify` (`missing_tool_call`)                | Như R10. PASS từ v4                                                                                                                                               |
-| R12_confirm_before_send     | wrong_boundary | `send(text="Bản tin này")`                                               | Model gửi ngay, không gọi `clarify` với `yes_no` để xin xác nhận (`missing_tool_call`)      | Chưa sửa được, còn FAIL ở v4. Hướng thử tiếp: bỏ đoạn "just go ahead" trong prompt và thêm ranh giới xác nhận cho `send` trong `tools.yaml`                       |
-| R13_parallel_web_and_tweets | wrong_tool     | `lookup(query="AI news", timeframe="day")` + `social_search(query="AI")` | `query` thành "AI news" và thiếu `topic="news"` (`wrong_arg_value`)                         | PASS từ v2 (v1 chưa sửa được). Chưa giải thích được cơ chế                                                                                                        |
-| R14_out_of_scope_coding     | out_of_scope   | `send(text="Dưới đây là một hàm Python ...")`                            | Câu hỏi lập trình ngoài phạm vi nhưng model gọi `send` (`unexpected_tool_call`)             | PASS từ v1 dù v1 chỉ sửa mô tả `lookup`. Chưa giải thích được cơ chế                                                                                              |
+| Case ID | Failure Type | Actual Tool Calls | What Failed | Fix |
+| ------- | ------------ | ----------------- | ----------- | --- |
+| R03_web_news_routing | wrong_tool | `lookup(query="AI news", topic="news", timeframe="day")` | `query` mong đợi "AI", model viết "AI news" (`wrong_arg_value`) | v1 (Đạt): làm rõ mô tả `query` của `lookup` trong `tools.yaml`. PASS từ v1 |
+| R08_out_of_scope | out_of_scope | `send(text="Nguyên hàm của x^2 là ...")` | Câu hỏi ngoài phạm vi nhưng model gọi `send` thay vì trả lời thẳng (`unexpected_tool_call`) | v2 (Khánh): bỏ các chỉ dẫn "fast, proactive" và "đoán, đừng hỏi" trong `system_prompt.md`. PASS từ v2, chưa tách được chỉ dẫn nào gây ra lỗi |
+| R10_missing_handle | missing_info | `timeline(screenname="sama")` | Thiếu tên tài khoản nhưng model tự đoán "sama" thay vì gọi `clarify` (`missing_tool_call`) | v2: thêm rule gọi `clarify` trong prompt, model đã hỏi lại nhưng thiếu `response_type`. v4 (Khánh): bắt buộc `response_type` trong khai báo `clarify`. PASS từ v4 |
+| R11_missing_url | missing_info | `fetch(url="https://example.com/article")` | Thiếu URL nhưng model tự bịa URL thay vì gọi `clarify` (`missing_tool_call`) | Như R10. PASS từ v4 |
+| R12_confirm_before_send | wrong_boundary | `send(text="Bản tin này")` | Model gửi ngay, không gọi `clarify` với `yes_no` để xin xác nhận (`missing_tool_call`) | Chưa sửa được, còn FAIL ở v4. Hướng thử tiếp: bỏ đoạn "just go ahead" trong prompt và thêm ranh giới xác nhận cho `send` trong `tools.yaml` |
+| R13_parallel_web_and_tweets | wrong_tool | `lookup(query="AI news", timeframe="day")` + `social_search(query="AI")` | `query` thành "AI news" và thiếu `topic="news"` (`wrong_arg_value`) | PASS từ v2 (v1 chưa sửa được). Chưa giải thích được cơ chế |
+| R14_out_of_scope_coding | out_of_scope | `send(text="Dưới đây là một hàm Python ...")` | Câu hỏi lập trình ngoài phạm vi nhưng model gọi `send` (`unexpected_tool_call`) | PASS từ v1 dù v1 chỉ sửa mô tả `lookup`. Chưa giải thích được cơ chế |
 
 Nguồn: `starter_v0/runs/v0_B_base_openrouter_20261110T181849652314.json` (13/20 PASS, 7 case FAIL, `provider_error_cases = 0`). Cột Fix đối chiếu với run v1 đến v4 trong `starter_v0/runs/`.
 
@@ -169,8 +169,13 @@ Lỗi đặc thù của model nhỏ (đếm từ run JSON):
 
 ## 5. Khó khăn và cách xử lý
 
-- Lượng lớn dữ liệu JSON, nhiều tham số, khó đọc và xử lý. Nhóm sử dụng script chuyển thành CSV kết hợp AI để trích xuất và phân tích dữ liệu từ các file run JSON.
-- Phân chia công việc do nhiều quy trình đòi hỏi sự tuần tự. Nhóm phân chia việc viết test, cải thiện mô hình và xây dựng mô hình cho 3 thành viên và chạy eval sau.
+| # | Khó khăn | Biểu hiện (bằng chứng) | Cách xử lý | Kết quả |
+|--:|---|---|---|---|
+| 1 | Model gọi `clarify` nhưng thiếu hoặc sai `response_type` | R10, R11 ở v0 gọi `clarify` thiếu `response_type` | v2 sửa prompt, v4 bắt buộc `response_type` trong `tools.yaml` | R10, R11 PASS từ v4 (0.85 → 0.95) |
+| 2 | Cùng một chỉ dẫn `yes/no` cho hai nhu cầu trái nhau | G04, G08 cần `text` nhưng model truyền `yes_no`; R12 cần `yes_no` để xác nhận gửi | Thử v5: dạy `text` khi thiếu thông tin, `yes_no` khi xác nhận gửi | Nhóm 8/10 → 9/10 nhưng base 0.95 → 0.90, hòa 27/30 với v4; v5 bị loại, revert về v4 (commit `b557861`) |
+| 3 | Kết quả đổi theo thay đổi rất nhỏ của prompt/tool | M06 đổi FAIL/PASS giữa các version (chọn nhầm `social_search`) | Chỉ đổi một artifact mỗi version, so `actual_tool_calls` trước và sau | Chưa tách được nguyên nhân M06 |
+| 4 | R12 chưa PASS ở bản nào | Model hỏi nội dung bằng `text` vì câu "Đăng bản tin này" thiếu nội dung, case chờ `yes_no` | Thử ở v3 và v5 | Chưa giải quyết |
+| 5 | File bị ghi đè khi nhiều người cùng sửa và do editor | `group_report.md` bị ghi đè bản cũ nhiều lần; rebase conflict khi B1 đổi định dạng | Đóng tab editor, tắt Auto Save, `git diff --stat` sau mỗi lần ghi, `git pull --rebase` trước khi push | Không mất bản đã push |
 
 ## 6. Tổng hợp đóng góp
 
@@ -179,6 +184,8 @@ Chi tiết đóng góp của từng thành viên nằm trong [TEAM.md](../../TEA
 ## 7. Hạn chế và hướng cải thiện — B6. Reflection
 
 - Chưa pass đầy đủ 20 case. Cần đào sâu thêm để tìm giải pháp, thử nghiệm thêm với các model mạnh hơn.
-- Agent khi research chưa phân loại nguồn tin đáng tin cậy hay không, còn lấy từ các nguồn tin facebook, instagram khi hỏi về các vấn đề sức khỏe. Hướng đi có thể là tạo một tools để loại bỏ các nguồn tin không chính thống khi tìm kiếm về sức khỏe, vẫn giữ lại tìm kiếm trên mạng xã hội với các chủ đề khác để đảm bảo sự đa chiều khi research.
+- R12 chưa PASS ở bản nào; G04 và G08 (`text`) mâu thuẫn với R12 (`yes_no`) khi chỉ dựa vào một câu trong prompt.
+- M06 đổi FAIL/PASS giữa các version nhưng chưa tách được nguyên nhân.
+- Hướng tiếp theo: viết lại mô tả `lookup` và `social_search` trong `tools.yaml` để tách rõ hai tool (M06); mô tả `clarify` theo ngữ cảnh thay vì ép một loại `response_type`.
 
 ## 8. Tài liệu tham khảo
