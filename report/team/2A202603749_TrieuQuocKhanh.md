@@ -4,7 +4,7 @@
 
 - Họ tên: Triệu Quốc Khánh
 - MSSV: 2A202603749
-- Email: (để trống)
+- Email: 26ai.khanhtq4@vinuni.edu.vn
 - GitHub: qockhah253
 
 ## 2. Phần việc phụ trách
