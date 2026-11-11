@@ -49,17 +49,21 @@ Sao chép mục dưới đây cho từng thành viên.
 
 ## Tran Quang Hung - 2A202603767
 
-### Phần việc phụ trách
+## 2. Phần việc phụ trách
 
--
+Cải thiện agent v2 -> v3, quản lý git, hỗ trợ viết eval_group.json, viết các test trong test_tools_todo.py
 
-### Đóng góp cụ thể
+## 3. Đóng góp cụ thể
 
--
+- Cải thiện v2 -> v3, làm rõ quy trình clarify
+- Hỗ trợ viết eval_group.json
 
-### Bằng chứng
+## 4. Bằng chứng
 
--
+- File/commit/PR:
+- **Cải thiện v2 -> v3**: https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/a8384b1cbf1ac3aec4602658e87cfb06b5f4d253
+- **Hỗ trợ viết eval_group.json**: https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/d83a15a3f07b96db5dfc3a58b1f04a51b34523bf
+- **Viết test**: https://github.com/tqhungdl/K5-L3B-DAY03-777-ResearchAgentToolEval/commit/928c81f80d6d779e5ea04f5a9d7f753eca92d033
 
 ## Nguyễn Tiến Đạt - 2A202603752
 
